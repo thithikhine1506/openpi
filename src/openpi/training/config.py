@@ -640,7 +640,7 @@ _CONFIGS = [
             action_expert_variant="gemma_300m_lora",
         ),
         data=LeRobotKinovaDataConfig(
-            repo_id="thithi/kinova_gen3_pick_place",
+            repo_id="thithikhine/kinova_gen3_pick_place",
             base_config=DataConfig(prompt_from_task=True),
             has_wrist_image=False,
             convert_absolute_to_delta=True,
@@ -668,7 +668,7 @@ _CONFIGS = [
             action_expert_variant="gemma_300m_lora",
         ),
         data=LeRobotKinovaDataConfig(
-            repo_id="thithi/kinova_gen3_pick_place",
+            repo_id="thithikhine/kinova_gen3_pick_place",
             base_config=DataConfig(prompt_from_task=True),
             has_wrist_image=False,
             convert_absolute_to_delta=True,

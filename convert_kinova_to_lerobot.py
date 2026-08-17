@@ -63,7 +63,7 @@ def resize_frame(img, size=IMG_SIZE, center_crop=False):
 
 def main(
     data_dir: str = "~/kinova_collect/episodes",
-    repo_name: str = "thithi/kinova_gen3_pick_place",
+    repo_name: str = "thithikhine/kinova_gen3_pick_place",
     center_crop: bool = False,
     filter_noops: bool = True,
     push_to_hub: bool = False,
