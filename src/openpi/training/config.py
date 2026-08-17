@@ -375,18 +375,19 @@ class LeRobotKinovaDataConfig(DataConfigFactory):
     def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
         # Repack maps YOUR dataset keys -> the keys your robot client will send
         # at inference time. Applied to dataset data only, not at inference.
+        repack_map = {
+            "observation/image": "image",
+            "observation/state": "state",
+            "actions": "actions",
+            "prompt": "prompt",
+        }
+        # Only map the wrist image if the dataset actually has one -- otherwise
+        # RepackTransform raises KeyError before KinovaInputs ever sees the data.
+        if self.has_wrist_image:
+            repack_map["observation/wrist_image"] = "wrist_image"
+
         repack_transform = _transforms.Group(
-            inputs=[
-                _transforms.RepackTransform(
-                    {
-                        "observation/image": "image",
-                        "observation/wrist_image": "wrist_image",
-                        "observation/state": "state",
-                        "actions": "actions",
-                        "prompt": "prompt",
-                    }
-                )
-            ]
+            inputs=[_transforms.RepackTransform(repack_map)]
         )
 
         # Applied to BOTH dataset data and live inference -- these must match.
@@ -641,7 +642,7 @@ _CONFIGS = [
         data=LeRobotKinovaDataConfig(
             repo_id="thithi/kinova_gen3_pick_place",
             base_config=DataConfig(prompt_from_task=True),
-            has_wrist_image=True,
+            has_wrist_image=False,
             convert_absolute_to_delta=True,
         ),
         weight_loader=weight_loaders.CheckpointWeightLoader(
@@ -669,7 +670,7 @@ _CONFIGS = [
         data=LeRobotKinovaDataConfig(
             repo_id="thithi/kinova_gen3_pick_place",
             base_config=DataConfig(prompt_from_task=True),
-            has_wrist_image=True,
+            has_wrist_image=False,
             convert_absolute_to_delta=True,
         ),
         weight_loader=weight_loaders.CheckpointWeightLoader(
